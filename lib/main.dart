@@ -40,7 +40,6 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         if (_start < 1) {
           timer.cancel();
-          print("25分");
         } else {
           _currentTime = _currentTime - 1;
         }
@@ -56,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    int _minutes = _start ~/ 60;
-    int _seconds = _start % 60;
+    int _minutes = _currentTime ~/ 60;
+    int _seconds = _currentTime % 60;
 
     return Scaffold(
       appBar: AppBar(
