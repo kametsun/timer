@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +23,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
   final String title;
 
   @override
@@ -30,8 +30,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Timer? _timer;
+  int _start = 25 * 60; //60秒 * 25分 => 25分を秒数換算
+  int _currentTime = 25 * 60;
+
+  void startTimer() {
+    const oneSec = Duration(seconds: 1);
+    _timer = Timer.periodic(oneSec, (Timer timer) {
+      setState(() {
+        if (_start < 1) {
+          timer.cancel();
+          print("25分");
+        } else {
+          _currentTime = _currentTime - 1;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    int _minutes = _start ~/ 60;
+    int _seconds = _start % 60;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -49,9 +76,25 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               height: 100,
             ),
-            const Text(
-              'mm:ss',
-              style: TextStyle(fontSize: 80),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Center(
+                  child: SizedBox(
+                    height: 280,
+                    width: 280,
+                    child: CircularProgressIndicator(
+                      value: _currentTime / _start.toDouble(),
+                      strokeWidth: 15,
+                    ),
+                  ),
+                ),
+                Center(
+                    child: Text(
+                  "${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}",
+                  style: TextStyle(fontSize: 50),
+                ))
+              ],
             ),
             const SizedBox(
               width: double.infinity,
@@ -71,8 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.black,
                               width: 1,
                               style: BorderStyle.solid))),
-                  onPressed: null,
-                  child: const Text("キャンセル"),
+                  onPressed: startTimer,
+                  child: const Text("スタート"),
                 ),
                 const SizedBox(
                   height: 100,
@@ -97,7 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(
               width: double.infinity,
-              height: 80,
+              height: 50,
             ),
             const Column(
               children: [
