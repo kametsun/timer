@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x00ff8c00)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'タイマー'),
@@ -112,21 +112,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    int _minutes = _currentTime ~/ 60;
-    int _seconds = _currentTime % 60;
+    int minutes = _currentTime ~/ 60;
+    int seconds = _currentTime % 60;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      backgroundColor: Colors.black,
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      //   title: Text(widget.title),
+      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
               "作業中",
-              style: TextStyle(fontSize: 35),
+              style: TextStyle(fontSize: 35, color: Colors.white),
             ),
             const SizedBox(
               width: double.infinity,
@@ -142,13 +143,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: CircularProgressIndicator(
                       value: _currentTime / _start.toDouble(),
                       strokeWidth: 15,
+                      valueColor:
+                          const AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
                     ),
                   ),
                 ),
                 Center(
                     child: Text(
-                  "${_minutes.toString().padLeft(2, '0')}:${_seconds.toString().padLeft(2, '0')}",
-                  style: TextStyle(fontSize: 50),
+                  "${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}",
+                  style: const TextStyle(
+                    fontSize: 50,
+                    color: Colors.white,
+                  ),
                 ))
               ],
             ),
@@ -158,12 +164,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Row(
               children: [
+                const Spacer(),
                 const SizedBox(
                   width: 20,
                   height: 100,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF006400),
+                      foregroundColor: Colors.lightGreen,
                       minimumSize: const Size(100, 100),
                       shape: const CircleBorder(
                           side: BorderSide(
@@ -173,25 +182,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: startWork,
                   child: const Text("スタート"),
                 ),
+                const Spacer(),
                 const SizedBox(
                   height: 100,
                   width: 130,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3c3c3c),
                       minimumSize: const Size(100, 100),
                       shape: const CircleBorder(
                           side: BorderSide(
                               color: Colors.black,
                               width: 1,
                               style: BorderStyle.solid))),
-                  onPressed: null,
-                  child: const Text("終了"),
+                  onPressed: startTimer,
+                  child: const Text(
+                    "終了",
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
                 const SizedBox(
                   width: 20,
                   height: 100,
                 ),
+                const Spacer(),
               ],
             ),
             const SizedBox(
@@ -202,11 +217,17 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Text(
                   '合計作業時間',
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 ),
                 Text(
                   "mm:ss",
-                  style: TextStyle(fontSize: 20),
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
                 )
               ],
             ),
