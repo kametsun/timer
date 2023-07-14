@@ -29,16 +29,25 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
+//状態を表す
+enum SessionStatus { none, work, shortBreak, longBreak }
+
 class _MyHomePageState extends State<MyHomePage> {
+  SessionStatus sessionStatus = SessionStatus.none; //初期値はnone => スタート待ち状態
+  static int WORK_TIME = 25;
+  static int SHORT_BREAK_TIME = 5;
+  static int LONG_BREAK_TIME = 15;
+
   Timer? _timer;
-  int _start = 25 * 60; //60秒 * 25分 => 25分を秒数換算
+  int _start = WORK_TIME * 60; //60秒 * 25分 => 25分を秒数換算(初期値)
   int _currentTime = 25 * 60;
+  int _workCount = 0;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(oneSec, (Timer timer) {
       setState(() {
-        if (_start < 1) {
+        if (_currentTime < 1) {
           timer.cancel();
         } else {
           _currentTime = _currentTime - 1;
@@ -51,6 +60,34 @@ class _MyHomePageState extends State<MyHomePage> {
   void dispose() {
     _timer?.cancel();
     super.dispose();
+  }
+
+  // _currentTimeを作業時間に設定
+  void setCurrentTimeToWorkTime() {
+    _currentTime = WORK_TIME * 60;
+  }
+
+  // _currentTimeを小休憩時間に設定
+  void setCurrentTimeToShortBreak() {
+    _currentTime = SHORT_BREAK_TIME * 60;
+  }
+
+  // _currentTimeを長休憩時間に設定
+  void setCurrentTimeToLongBreak() {
+    _currentTime = LONG_BREAK_TIME * 60;
+  }
+
+  /*
+   *タイマーが0になったときcheckWorkCount()を必ず通す。 
+   */
+  void checkWorkCount() {
+    //作業回数が4回だったら長休憩にする
+    if (_workCount == 4) {
+      sessionStatus = SessionStatus.longBreak;
+    } else if (_workCount < 4) {
+      sessionStatus = SessionStatus.shortBreak;
+    }
+    _workCount++;
   }
 
   @override
