@@ -136,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               getStatusLabel(sessionStatus),
-              style: TextStyle(fontSize: 35, color: Colors.white),
+              style: const TextStyle(fontSize: 35, color: Colors.white),
             ),
             const SizedBox(
               width: double.infinity,
