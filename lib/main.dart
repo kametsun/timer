@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Timer? _timer;
   int _start = WORK_TIME * 60; //60秒 * 25分 => 25分を秒数換算(初期値)
   int _currentTime = WORK_TIME * 60;
-  int _workCount = 3;
+  int _workCount = 0;
 
   void startTimer() {
     const oneSec = Duration(seconds: 1);
@@ -110,6 +110,19 @@ class _MyHomePageState extends State<MyHomePage> {
     startTimer();
   }
 
+  String getStatusLabel(SessionStatus status) {
+    switch (status) {
+      case SessionStatus.work:
+        return "作業中";
+      case SessionStatus.shortBreak:
+        return "小休憩";
+      case SessionStatus.longBreak:
+        return "長休憩";
+      default:
+        return "開始待ち";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     int minutes = _currentTime ~/ 60;
@@ -117,16 +130,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       backgroundColor: Colors.black,
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   title: Text(widget.title),
-      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              "作業中",
+            Text(
+              getStatusLabel(sessionStatus),
               style: TextStyle(fontSize: 35, color: Colors.white),
             ),
             const SizedBox(
@@ -143,8 +152,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: CircularProgressIndicator(
                       value: _currentTime / _start.toDouble(),
                       strokeWidth: 15,
-                      valueColor:
-                          const AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                          Colors.orangeAccent),
                     ),
                   ),
                 ),
