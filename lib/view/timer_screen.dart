@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'dart:async';
 import 'package:timer/view/finish_screen.dart';
+
+//AudioPlayerインスタンス
+final _player = AudioPlayer();
 
 //状態を表す
 enum SessionStatus { none, work, shortBreak, longBreak }
@@ -48,6 +52,8 @@ class _TimerScreenState extends State<TimerScreen> {
       sessionStatus = SessionStatus.work;
       setCurrentTimeToWorkTime();
       startTimer();
+      //音楽再生
+      playWorkTimeSound();
     }
   }
 
@@ -75,25 +81,47 @@ class _TimerScreenState extends State<TimerScreen> {
     _start = LONG_BREAK_TIME * 60;
   }
 
+  //作業時の曲のセットと再生
+  void playWorkTimeSound() {
+    _player.setAsset('assets/sound/workTimeSound.mp3').then((_) {
+      _player.play();
+    });
+  }
+
+  //休憩時の曲のセットと再生
+  void playBreakTimeSound() {
+    _player.setAsset('assets/sound/breakTimeSound.mp3').then((_) {
+      _player.play();
+    });
+  }
+
   /*
    *タイマーが0になったときcheckWorkCount()を必ず通す。 
    */
   void checkWorkCount() {
-    if (sessionStatus == SessionStatus.work) {
-      _workCount++;
-      if (_workCount == 4) {
-        sessionStatus = SessionStatus.longBreak;
-        setCurrentTimeToLongBreak();
-        _workCount = 0;
+    _player.stop().then((_) {
+      if (sessionStatus == SessionStatus.work) {
+        _workCount++;
+        if (_workCount == 4) {
+          sessionStatus = SessionStatus.longBreak;
+          setCurrentTimeToLongBreak();
+          _workCount = 0;
+
+          playBreakTimeSound();
+        } else {
+          sessionStatus = SessionStatus.shortBreak;
+          setCurrentTimeToShortBreak();
+
+          playBreakTimeSound();
+        }
       } else {
-        sessionStatus = SessionStatus.shortBreak;
-        setCurrentTimeToShortBreak();
+        sessionStatus = SessionStatus.work;
+        setCurrentTimeToWorkTime();
+
+        playWorkTimeSound();
       }
-    } else {
-      sessionStatus = SessionStatus.work;
-      setCurrentTimeToWorkTime();
-    }
-    startTimer();
+      startTimer();
+    });
   }
 
   String getStatusLabel(SessionStatus status) {
@@ -195,6 +223,9 @@ class _TimerScreenState extends State<TimerScreen> {
                     if (_timer != null) {
                       _timer!.cancel();
                       _timer = null;
+
+                      //音楽を停止
+                      _player.pause();
                     }
                     Navigator.push(
                       context,
