@@ -83,14 +83,18 @@ class _TimerScreenState extends State<TimerScreen> {
 
   //作業時の曲のセットと再生
   void playWorkTimeSound() {
-    _player.setAsset('assets/sound/workTimeSound.mp3').then((_) {
+    _player
+        .setAsset('https://le-ali.blog/assets/sound/workTimeSound.mp3')
+        .then((_) {
       _player.play();
     });
   }
 
   //休憩時の曲のセットと再生
   void playBreakTimeSound() {
-    _player.setAsset('assets/sound/breakTimeSound.mp3').then((_) {
+    _player
+        .setAsset('https://le-ali.blog/assets/sound/breakTimeSound.mp3')
+        .then((_) {
       _player.play();
     });
   }
