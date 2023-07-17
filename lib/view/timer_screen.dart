@@ -82,21 +82,25 @@ class _TimerScreenState extends State<TimerScreen> {
   }
 
   //作業時の曲のセットと再生
-  void playWorkTimeSound() {
-    _player
-        .setAsset('https://le-ali.blog/assets/sound/workTimeSound.mp3')
-        .then((_) {
+  void playWorkTimeSound() async {
+    try {
+      await _player
+          .setUrl("https://le-ali.blog/assets/sound/workTimeSound.mp3");
       _player.play();
-    });
+    } catch (a) {
+      print(a);
+    }
   }
 
   //休憩時の曲のセットと再生
-  void playBreakTimeSound() {
-    _player
-        .setAsset('https://le-ali.blog/assets/sound/breakTimeSound.mp3')
-        .then((_) {
+  void playBreakTimeSound() async {
+    try {
+      await _player
+          .setUrl("https://le-ali.blog/assets/sound/breakTimeSound.mp3");
       _player.play();
-    });
+    } catch (a) {
+      print(a);
+    }
   }
 
   /*
