@@ -43,6 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentTime = WORK_TIME * 60;
   int _workCount = 0;
 
+  int _totalWorkTime = 0; //合計作業時間をカウントする
+
   void startTimer() {
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(oneSec, (Timer timer) {
@@ -52,6 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
           checkWorkCount();
         } else {
           _currentTime = _currentTime - 1;
+          //作業中の場合カウントさせる
+          if (sessionStatus == SessionStatus.work) {
+            _totalWorkTime++;
+          }
         }
       });
     });
@@ -222,9 +228,9 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               height: 50,
             ),
-            const Column(
+            Column(
               children: [
-                Text(
+                const Text(
                   '合計作業時間',
                   style: TextStyle(
                     fontSize: 20,
@@ -232,8 +238,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Text(
-                  "mm:ss",
-                  style: TextStyle(
+                  "${(_totalWorkTime ~/ 60).toString().padLeft(2, '0')}:${(_totalWorkTime % 60).toString().padLeft(2, '0')}",
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Colors.white,
                   ),
