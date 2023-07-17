@@ -13,7 +13,7 @@ class FinishScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width *
                 0.8, // Here we set width to 80% of the screen width
             child: Card(
@@ -26,12 +26,12 @@ class FinishScreen extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
+                    const Text(
                       "お疲れ様でした",
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text(
                       "合計作業時間",
                       style: TextStyle(fontSize: 20, color: Colors.grey[700]),
@@ -39,13 +39,12 @@ class FinishScreen extends StatelessWidget {
                     Text(
                       "${(totalWorkTime ~/ 60).toString().padLeft(2, '0')}:${(totalWorkTime % 60).toString().padLeft(2, '0')}",
                       style:
-                          TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 30),
+                    const SizedBox(height: 30),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orange, // background
-                        onPrimary: Colors.white, // foreground
+                        foregroundColor: Colors.white, backgroundColor: Colors.orange, // foreground
                       ),
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -53,8 +52,8 @@ class FinishScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) => const MyHomePage()));
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
                             horizontal: 30.0, vertical: 10.0),
                         child: Text("戻る", style: TextStyle(fontSize: 20)),
                       ),
