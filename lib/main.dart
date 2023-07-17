@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:timer/view/finish_page.dart';
+import 'package:timer/view/finish_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -220,7 +220,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FinishPage()),
+                      MaterialPageRoute(builder: (context) => const FinishScreen()),
                     );
                   },
                   child: const Text(

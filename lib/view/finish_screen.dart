@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FinishPage extends StatelessWidget {
-  const FinishPage({super.key});
+class FinishScreen extends StatelessWidget {
+  const FinishScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
