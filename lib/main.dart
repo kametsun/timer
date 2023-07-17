@@ -13,19 +13,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Timer',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0x00ff8c00)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'タイマー'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -220,7 +219,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     }
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FinishScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => FinishScreen(
+                                totalWorkTime: _totalWorkTime,
+                              )),
                     );
                   },
                   child: const Text(
