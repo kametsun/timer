@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:timer/view/finish_page.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -211,7 +213,16 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.black,
                               width: 1,
                               style: BorderStyle.solid))),
-                  onPressed: startTimer,
+                  onPressed: () {
+                    if (_timer != null) {
+                      _timer!.cancel();
+                      _timer = null;
+                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FinishPage()),
+                    );
+                  },
                   child: const Text(
                     "終了",
                     style: TextStyle(color: Colors.white),
