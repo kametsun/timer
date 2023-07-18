@@ -9,7 +9,7 @@ class FinishScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -28,23 +28,29 @@ class FinishScreen extends StatelessWidget {
                   children: [
                     const Text(
                       "お疲れ様でした",
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                     const SizedBox(height: 20),
-                    Text(
+                    const Text(
                       "合計作業時間",
-                      style: TextStyle(fontSize: 20, color: Colors.grey[700]),
+                      style: TextStyle(fontSize: 20, color: Colors.black),
                     ),
                     Text(
                       "${(totalWorkTime ~/ 60).toString().padLeft(2, '0')}:${(totalWorkTime % 60).toString().padLeft(2, '0')}",
-                      style:
-                          const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
                     const SizedBox(height: 30),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Colors.orange, // foreground
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.orange, // foreground
                       ),
                       onPressed: () {
                         Navigator.pushReplacement(

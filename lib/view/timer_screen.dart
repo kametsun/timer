@@ -135,13 +135,13 @@ class _TimerScreenState extends State<TimerScreen> {
   String getStatusLabel(SessionStatus status) {
     switch (status) {
       case SessionStatus.work:
-        return "作業中";
+        return "作業中です！";
       case SessionStatus.shortBreak:
         return "小休憩";
       case SessionStatus.longBreak:
         return "長休憩";
       default:
-        return "開始待ち";
+        return "今日も頑張りましょう！";
     }
   }
 
@@ -151,18 +151,48 @@ class _TimerScreenState extends State<TimerScreen> {
     int seconds = _currentTime % 60;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              getStatusLabel(sessionStatus),
-              style: const TextStyle(fontSize: 35, color: Colors.white),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 10,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Text(
+                      getStatusLabel(sessionStatus),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                const IconButton(
+                  onPressed: null,
+                  icon: Icon(Icons.settings),
+                  iconSize: 50,
+                )
+              ],
             ),
             const SizedBox(
               width: double.infinity,
-              height: 100,
+              height: 80,
             ),
             Stack(
               alignment: Alignment.center,
@@ -173,7 +203,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     width: 280,
                     child: CircularProgressIndicator(
                       value: _currentTime / _start.toDouble(),
-                      strokeWidth: 15,
+                      strokeWidth: 20,
                       valueColor: const AlwaysStoppedAnimation<Color>(
                           Colors.orangeAccent),
                     ),
