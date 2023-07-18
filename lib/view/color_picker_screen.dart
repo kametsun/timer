@@ -15,12 +15,12 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
   @override
   void initState() {
     super.initState();
-    loadFontFromList();
+    loadColorFromPreferences();
   }
 
   loadColorFromPreferences() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    int colorInt = sharedPreferences.getInt("color");
+    int? colorInt = sharedPreferences.getInt('Color');
     if (colorInt != null) {
       setState(() {
         pickerColor = Color(colorInt);
@@ -38,6 +38,42 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("色選択"),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("色選択"),
+                  content: SingleChildScrollView(
+                    child: ColorPicker(
+                      pickerColor: pickerColor,
+                      onColorChanged: (color) {
+                        setState(() {
+                          pickerColor = color;
+                        });
+                      },
+                      enableAlpha: true,
+                      pickerAreaHeightPercent: 0.8,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text("Got it"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        saveColorToPreferences(pickerColor);
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+          },
+          child: const Text("色変更"),
+        ),
       ),
     );
   }

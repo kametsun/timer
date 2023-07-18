@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'dart:async';
 import 'package:timer/view/finish_screen.dart';
+import 'package:timer/view/color_picker_screen.dart';
 
 //AudioPlayerインスタンス
 final _player = AudioPlayer();
@@ -183,8 +184,14 @@ class _TimerScreenState extends State<TimerScreen> {
                 const SizedBox(
                   width: 20,
                 ),
-                const IconButton(
-                  onPressed: null,
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ColorPickerScreen()),
+                    );
+                  },
                   icon: Icon(Icons.settings),
                   iconSize: 50,
                 )
