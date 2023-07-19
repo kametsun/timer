@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:timer/main.dart';
+import 'package:timer/theme_changer.dart';
+import 'package:provider/provider.dart';
 
 class FinishScreen extends StatelessWidget {
   final int totalWorkTime;
@@ -8,8 +10,10 @@ class FinishScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //ThemeChangerから現在のテーマを取得
+    final themeColor = Provider.of<ThemeChanger>(context).getThemeColor();
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: themeColor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

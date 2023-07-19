@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timer/theme_changer.dart';
 import 'package:timer/view/timer_screen.dart';
-import 'package:timer/theme_changer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,7 +14,7 @@ void main() async {
 
   runApp(ChangeNotifierProvider<ThemeChanger>(
     create: (_) => ThemeChanger(customColor),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
