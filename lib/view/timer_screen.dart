@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:provider/provider.dart';
+import 'package:timer/theme_changer.dart';
 import 'dart:async';
 import 'package:timer/view/finish_screen.dart';
 import 'package:timer/view/color_picker_screen.dart';
@@ -148,11 +150,13 @@ class _TimerScreenState extends State<TimerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //ThemeChangerから現在のテーマを取得
+    final themeColor = Provider.of<ThemeChanger>(context).getThemeColor();
     int minutes = _currentTime ~/ 60;
     int seconds = _currentTime % 60;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: themeColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -189,10 +193,10 @@ class _TimerScreenState extends State<TimerScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ColorPickerScreen()),
+                          builder: (context) => const ColorPickerScreen()),
                     );
                   },
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                   iconSize: 50,
                 )
               ],

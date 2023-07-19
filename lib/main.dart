@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:timer/theme_changer.dart';
 import 'package:timer/view/timer_screen.dart';
+import 'package:timer/theme_changer.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //セーブされた色を取得
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  int colorValue = preferences.getInt("color") ?? Colors.blue.value;
+  Color customColor = Color(colorValue);
+
+  runApp(ChangeNotifierProvider<ThemeChanger>(
+    create: (_) => ThemeChanger(customColor),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeColor = Provider.of<ThemeChanger>(context);
     return MaterialApp(
-      title: 'Timer',
       theme: ThemeData(
+        primaryColor: themeColor.getThemeColor(),
+        colorScheme: ColorScheme.fromSwatch()
+            .copyWith(secondary: themeColor.getThemeColor()),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.white),
           bodyMedium: TextStyle(color: Colors.white),
