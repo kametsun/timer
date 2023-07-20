@@ -36,7 +36,8 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
     final themeChanger = Provider.of<ThemeChanger>(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("色選択"),
+        title: const Text("設定"),
+        backgroundColor: themeChanger.getThemeColor(),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -52,7 +53,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
               onPressed: () {
                 showDialog(
                   builder: (context) => AlertDialog(
-                    title: const Text('色を選択'),
+                    title: const Text('背景色を選択'),
                     content: SingleChildScrollView(
                       child: BlockPicker(
                         pickerColor: themeChanger.getThemeColor(),
@@ -66,7 +67,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                   context: context,
                 );
               },
-              child: const Text('カラーピッカーを表示する'),
+              child: const Text('背景色を選択'),
             ),
             const SizedBox(
               height: 20,
